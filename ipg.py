@@ -1,12 +1,14 @@
 import turtle
 
+
+counter=0
 high_score=0
 
 #Экран игры
 window = turtle.Screen()
 window.title("Snake Game")
 window.bgcolor("SeaGreen")
-window.setup(width=600, height=500)
+window.setup(width=800, height=600)
 window.tracer(0)
 window.cv._rootwindow.resizable(False, False)
 
@@ -18,7 +20,6 @@ head.color("DarkGreen")
 head.penup()
 head.goto(0,0)
 head.direction = "stop"
-segments=[]
 
 #Яблоко
 apple=turtle.Turtle()
@@ -35,7 +36,5 @@ score.shape("square")
 score.color("white")
 score.penup()
 score.hideturtle()
-score.goto(0,260)
-score.write(f"Счёт:{score},Рекорд:{high_score}")
-
-window.mainloop()
+score.goto(200,200)
+score.write(f"Счёт:{counter},Рекорд:{high_score}",align="center",font=("Courier",14,"normal"))

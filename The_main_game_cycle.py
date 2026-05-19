@@ -1,18 +1,46 @@
+from tkinter import simpledialog
+
+def getUserText():
+    user_text = simpledialog.askstring("Nickname","Введите ник:")
+    return user_text
+
+nickname = getUserText()
+
+import os
+
+#Загружаем рекорд из файла
+def load_h():
+    if os.path.exists("Nicknames_and_records"):
+        try:
+            with open("Nicknames_and_records","r",encoding="utf-8") as f:
+                return int(f.read())
+        except:
+            return 0
+    return 0
+
+#Сохраняем рекорды в файл
+def save_h():
+    with open("Nicknames_and_records","w+",encoding="utf-8") as f:
+        new_record = f"{nickname}:{str(counter)}\n"
+        f.write(new_record)
+
+
+print(f"Hello, {nickname}!")
 print("Management:W,A,S,D")
-print("(Включите английскую раскладку)")
+print("(Please,turn on the English layout)")
 import ipg
 import management
 import turtle
 import time
 import random
+import winsound
 
 counter=0
-high_score=0
+high_score=load_h()
 delay=0.1
 segments=[]
 
 management.keys()
-
 #Основной игровой цикл
 try:
     while True:
@@ -20,6 +48,7 @@ try:
 
         #Проверка столкновения со стеной
         if ipg.head.xcor()>395 or ipg.head.xcor()<-395 or ipg.head.ycor()>295 or ipg.head.ycor()<-290:
+            winsound.PlaySound("the-sound-of-losing.wav", winsound.SND_ASYNC)
             time.sleep(1)
             ipg.head.goto(0,0)
             ipg.head.direction="stop"
@@ -33,12 +62,16 @@ try:
             ipg.score.clear()
             ipg.score.write(f"Счёт:{counter},Рекорд:{high_score}",align="center",font=("Courier",14,"normal"))
 
-        #Проверка столкновения с едой
+        #Проверка столкновения с яблоком
         if ipg.head.distance(ipg.apple)<20:
+            winsound.PlaySound("apple-bite-short.wav", winsound.SND_ASYNC)
             #Перемещаем еду в случайное место
             x=random.randint(-385,385)
             y=random.randint(-285,285)
             ipg.apple.goto(x,y)
+            #Увеличение скорости при столкновении с яблоком
+            for i in range(10):
+                ipg.head.speed(i+1)
 
             #Добавляем сегмент тела
             new_s=turtle.Turtle()
@@ -52,10 +85,11 @@ try:
             counter+=10
             if counter>high_score:
                 high_score=counter
+                save_h()
             ipg.score.clear()
             ipg.score.write(f"Счёт:{counter},Рекорд:{high_score}",align="center",font=("Courier",14,"normal"))
-
-            delay-=0.001
+            if delay>0.05:
+                delay-=0.001
 
         #Движение змейки
         for index in range(len(segments)-1,0,-1):
@@ -72,6 +106,7 @@ try:
         #Проверка столкновения с телом
         for segment in segments:
             if segment.distance(ipg.head)<20:
+                winsound.PlaySound("the-sound-of-losing.wav", winsound.SND_ASYNC)
                 time.sleep(1)
                 ipg.head.goto(0,0)
                 ipg.head.direction="stop"
@@ -87,6 +122,7 @@ try:
 
 except turtle.Terminator:
     print("Game Over")
+    print(f"Score: {high_score}")
 except Exception as e:
     print(f"An error has occurred:{e}")
 finally:

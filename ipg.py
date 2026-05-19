@@ -14,7 +14,7 @@ window.cv._rootwindow.resizable(False, False)
 
 #Тело змейки
 head=turtle.Turtle()
-head.speed(0)
+head.speed(1)
 head.shape("square")
 head.color("DarkGreen")
 head.penup()

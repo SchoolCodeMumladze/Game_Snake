@@ -21,7 +21,7 @@ def load_h():
 #Сохраняем рекорды в файл
 def save_h():
     with open("Nicknames_and_records","w+",encoding="utf-8") as f:
-        new_record = f"{nickname}:{str(counter)}\n"
+        new_record = f"{nickname}:{str(counter)} \n"
         f.write(new_record)
 
 
@@ -60,7 +60,7 @@ try:
             counter=0
             delay=0.1
             ipg.score.clear()
-            ipg.score.write(f"Счёт:{counter},Рекорд:{high_score}",align="center",font=("Courier",14,"normal"))
+            ipg.score.write(f"Score:{counter},Record:{high_score}",align="center",font=("Courier",14,"normal"))
 
         #Проверка столкновения с яблоком
         if ipg.head.distance(ipg.apple)<20:
@@ -87,7 +87,7 @@ try:
                 high_score=counter
                 save_h()
             ipg.score.clear()
-            ipg.score.write(f"Счёт:{counter},Рекорд:{high_score}",align="center",font=("Courier",14,"normal"))
+            ipg.score.write(f"Score:{counter},Record:{high_score}",align="center",font=("Courier",14,"normal"))
             if delay>0.05:
                 delay-=0.001
 
@@ -116,7 +116,7 @@ try:
                 counter=0
                 delay=0.1
                 ipg.score.clear()
-                ipg.score.write(f"Счёт:{counter},Рекорд:{high_score}",align="center",font=("Courier",14,"normal"))
+                ipg.score.write(f"Score:{counter},Record:{high_score}",align="center",font=("Courier",14,"normal"))
 
         time.sleep(delay)
 

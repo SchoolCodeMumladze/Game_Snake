@@ -10,9 +10,9 @@ import os
 
 #Загружаем рекорд из файла
 def load_h():
-    if os.path.exists("Nicknames_and_records"):
+    if os.path.exists("Nicknames_and_records.txt"):
         try:
-            with open("Nicknames_and_records","r",encoding="utf-8") as f:
+            with open("Nicknames_and_records.txt", "r", encoding="utf-8") as f:
                 return int(f.read())
         except:
             return 0
@@ -20,7 +20,7 @@ def load_h():
 
 #Сохраняем рекорды в файл
 def save_h():
-    with open("Nicknames_and_records","w+",encoding="utf-8") as f:
+    with open("Nicknames_and_records.txt", "w+", encoding="utf-8") as f:
         new_record = f"{nickname}:{str(counter)} \n"
         f.write(new_record)
 
@@ -120,11 +120,9 @@ try:
 
         time.sleep(delay)
 
-except turtle.Terminator:
+except (turtle.Terminator,Exception):
     print("Game Over")
     print(f"Score: {high_score}")
-except Exception as e:
-    print(f"An error has occurred:{e}")
 finally:
     try:
         ipg.window.mainloop()
